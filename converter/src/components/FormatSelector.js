@@ -1,6 +1,6 @@
 import React from 'react'
 
-function FormatSelector({onSelectFileType}) {
+function FormatSelector({onSelectFileType, defaultFileType}) {
     const handleSelectFileType = (event) => {
         onSelectFileType(event.target.value);
     }
@@ -10,10 +10,13 @@ function FormatSelector({onSelectFileType}) {
         <select 
         name='fileTypes' 
         id='fileTypes'
-        onChange={handleSelectFileType}>
-            <option value='.txt'>TXT</option>
-            <option value='.pdf'>PDF</option>
-            <option value='.ods'>ODS</option>
+        onChange={handleSelectFileType}
+        defaultValue={defaultFileType}
+        >
+            <option value='docx'>DOCX</option>
+            <option value='doc'>DOC</option>
+            <option value='pdf'>PDF</option>
+            {/* <option value='.odt'>ODT</option> */}
         </select>
     </div>
   )

@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import './App.css';
 import FilePicker from './components/FilePicker';
 import FormatSelector from './components/FormatSelector';
+import Converter from './components/Converter';
 
 function App() {
   const [selectedFiles, setSelectedFiles] = useState(null);
-  const [fileTypeBefore, setfileTypeBefore] = useState('');
-  const [fileTypeAfter, setfileTypeAfter] = useState('');
+  const [fileTypeBefore, setfileTypeBefore] = useState('docx');
+  const [fileTypeAfter, setfileTypeAfter] = useState('pdf');
 
   const handleFilesChange = (files) => {
     setSelectedFiles(files);
@@ -23,8 +24,9 @@ function App() {
   return (
     <>
       <FilePicker onFilesChange={handleFilesChange} filetype={fileTypeBefore}/>
-      <FormatSelector onSelectFileType={handleSelectFileTypeBefore}/>
-      <FormatSelector onSelectFileType={handleSelectFileTypeAfter}/>
+      <FormatSelector onSelectFileType={handleSelectFileTypeBefore} defaultFileType={fileTypeBefore}/>
+      <FormatSelector onSelectFileType={handleSelectFileTypeAfter} defaultFileType={fileTypeAfter}/>
+      <Converter file={selectedFiles} fileTypeBefore={fileTypeBefore} fileTypeAfter={fileTypeAfter}/>
     </>
   );
 }
