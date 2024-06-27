@@ -1,9 +1,22 @@
 import os
 import zipfile
+import shutil
 from django.core.files.storage import default_storage
 from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
 from .converter import *
+
+def clear_directory(directory):
+    if os.path.exists(directory):
+        for filename in os.listdir(directory):
+            file_path = os.path.join(directory, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print(f'Failed to delete {file_path}. Reason: {e}')
 
 @api_view(['POST'])
 def load_files(request):
@@ -12,8 +25,9 @@ def load_files(request):
         file_type_before = request.POST.get('fileTypeBefore')
         file_type_after = request.POST.get('fileTypeAfter')
 
+        clear_directory('Files')
+
         if files:
-            num_files = len(files)
             file_names = []
             converted_files = []
             folder_name = 'Files'  
