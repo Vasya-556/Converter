@@ -1,22 +1,13 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
-function Converter({file2, fileTypeBefore, fileTypeAfter}) {
-    const fileInputRef = useRef(null);
-
-    const handleFileUpload = async (event) => {
-        event.preventDefault();
-        const formData = new FormData();
-
-        const files = fileInputRef.current.files;
-        if (files.length === 0) {
+function Converter({file, fileTypeBefore, fileTypeAfter}) {
+    const handleButtonClick = async (event) => {
+        if (!file) {
             console.error('No files selected');
             return;
         }
 
-        for (let i = 0; i < files.length; i++) {
-            formData.append('files', files[i]);
-        }
-
+        const formData = file;
         formData.append('fileTypeBefore', fileTypeBefore);
         formData.append('fileTypeAfter', fileTypeAfter);
 
@@ -46,10 +37,12 @@ function Converter({file2, fileTypeBefore, fileTypeAfter}) {
     };
 
     return (
-        <form onSubmit={handleFileUpload}>
-            <input type="file" ref={fileInputRef} name="files" multiple />
-            <button type="submit">Upload and Convert</button>
-        </form>
+        <div>
+            <button
+            onClick={handleButtonClick}>
+            Convert
+            </button>
+        </div>
     )
 }
 

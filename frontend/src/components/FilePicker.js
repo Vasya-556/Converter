@@ -1,30 +1,34 @@
-import React from 'react'
+import React, {useRef} from 'react'
 
 function FilePicker({onFilesChange, filetype}) {
-    const handleFilesChange = (event) => {
-        onFilesChange(event.target.files);
+  const filesRef = useRef(null);
 
-        const files = event.target.files;
+  const handleFilesChange = (event) => {
+        const files = filesRef.current.files;
         const formData = new FormData();
         
-        // Append all selected files to the FormData object
         for (let i = 0; i < files.length; i++) {
             formData.append('files', files[i]);
-        }
-        
+        }        
+
+        onFilesChange(formData);
     }
   return (
     <div>
         <label
-        htmlFor='files'
-        >Select files:</label>
+        htmlFor='files'>
+          Select files:
+        </label>
+        
         <input 
         type='file'
+        name='files'
         id='files'
         onChange={handleFilesChange}
         multiple
         style={{display:"none"}}
-        accept={filetype}
+        accept={`.${filetype}`}
+        ref={filesRef}
         />
     </div>
   )
