@@ -3,5 +3,5 @@ from rest_framework.routers import DefaultRouter
 from .views import *
 
 urlpatterns = [
-    path('upload/', upload_files),
+    path('upload/', load_files),
 ]
