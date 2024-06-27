@@ -1,6 +1,7 @@
 import os
+import zipfile
 from django.core.files.storage import default_storage
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
 from .converter import *
 
@@ -14,7 +15,12 @@ def load_files(request):
         if files:
             num_files = len(files)
             file_names = []
+            converted_files = []
             folder_name = 'Files'  
+            converted_folder_name = 'Converted'  
+
+            if not os.path.exists(converted_folder_name):
+                os.makedirs(converted_folder_name)
 
             for file in files:
                 file_path = os.path.join(folder_name, file.name)
@@ -24,31 +30,46 @@ def load_files(request):
 
                 if file_type_before == 'pdf':
                     if file_type_after == 'docx':
-                        pass  
-                    else:
-                        pass  
-                
+                        convert_pdf_to_docx([file_path_saved])
+                        converted_file_path = file_path_saved.replace('.pdf', '.docx')
+                        converted_files.append(converted_file_path)
+                    elif file_type_after == 'doc':
+                        convert_pdf_to_doc([file_path_saved])
+                        converted_file_path = file_path_saved.replace('.pdf', '.doc')
+                        converted_files.append(converted_file_path)
+
                 elif file_type_before == 'docx':
                     if file_type_after == 'pdf':
                         convert_docx_to_pdf([file_path_saved])
-                    else:
-                        pass  
-                
+                        converted_file_path = file_path_saved.replace('.docx', '.pdf')
+                        converted_files.append(converted_file_path)
+                    elif file_type_after == 'doc':
+                        convert_docx_to_doc([file_path_saved])
+                        converted_file_path = file_path_saved.replace('.docx', '.doc')
+                        converted_files.append(converted_file_path)
+
                 elif file_type_before == 'doc':
                     if file_type_after == 'docx':
-                        pass  
-                    else:
-                        pass  
-            
-            file_names_str = ", ".join(file_names)
-            message = f"{num_files} file(s) uploaded successfully. File type before: {file_type_before}, file type after: {file_type_after}. Files saved in '{folder_name}': {file_names_str}."
-            return JsonResponse({
-                'message': message,
-                'num_files': num_files,
-                'fileTypeBefore': file_type_before,
-                'fileTypeAfter': file_type_after,
-                'fileNames': file_names_str
-            })
+                        convert_doc_to_docx([file_path_saved])
+                        converted_file_path = file_path_saved.replace('.doc', '.doc')
+                        converted_files.append(converted_file_path)
+                    elif file_type_after == 'pdf':
+                        convert_doc_to_pdf([file_path_saved])
+                        converted_file_path = file_path_saved.replace('.doc', '.pdf')
+                        converted_files.append(converted_file_path)
+
+
+
+            zip_file_path = os.path.join(converted_folder_name, 'converted.zip')
+            with zipfile.ZipFile(zip_file_path, 'w') as zipf:
+                for file in converted_files:
+                    zipf.write(file, os.path.basename(file))
+
+            with open(zip_file_path, 'rb') as file:
+                response = HttpResponse(file, content_type='application/zip')
+                response['Content-Disposition'] = f'attachment; filename="{os.path.basename(zip_file_path)}"'
+            return response
+
         else:
             return JsonResponse({'message': 'No files uploaded.'}, status=400)
     
