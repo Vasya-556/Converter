@@ -37,7 +37,7 @@ function Converter({file, fileTypeBefore, fileTypeAfter}) {
     };
 
     return (
-        <div>
+        <div className='Converter'>
             <button
             onClick={handleButtonClick}>
             Convert

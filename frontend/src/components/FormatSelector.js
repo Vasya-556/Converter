@@ -6,7 +6,7 @@ function FormatSelector({onSelectFileType, defaultFileType}) {
     }
 
   return (
-    <div>
+    <div className='FormatSelector'>
         <select 
         name='fileTypes' 
         id='fileTypes'
