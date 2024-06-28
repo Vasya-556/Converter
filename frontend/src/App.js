@@ -24,8 +24,10 @@ function App() {
   return (
     <>
       <FilePicker onFilesChange={handleFilesChange} filetype={fileTypeBefore}/>
-      <FormatSelector onSelectFileType={handleSelectFileTypeBefore} defaultFileType={fileTypeBefore}/>
-      <FormatSelector onSelectFileType={handleSelectFileTypeAfter} defaultFileType={fileTypeAfter}/>
+      <div className="formatSelectorsContainer">
+        <FormatSelector onSelectFileType={handleSelectFileTypeBefore} defaultFileType={fileTypeBefore} />
+        <FormatSelector onSelectFileType={handleSelectFileTypeAfter} defaultFileType={fileTypeAfter} />
+      </div>
       <Converter file={selectedFiles} fileTypeBefore={fileTypeBefore} fileTypeAfter={fileTypeAfter}/>
     </>
   );
