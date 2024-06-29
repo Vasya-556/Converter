@@ -12,6 +12,7 @@ function FormatSelector({onSelectFileType, defaultFileType}) {
         id='fileTypes'
         onChange={handleSelectFileType}
         defaultValue={defaultFileType}
+        data-testid="fileTypes"
         >
             <option value='docx'>DOCX</option>
             <option value='doc'>DOC</option>

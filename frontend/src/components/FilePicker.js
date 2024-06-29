@@ -32,6 +32,7 @@ function FilePicker({onFilesChange, filetype}) {
         multiple
         accept={`.${filetype}`}
         ref={filesRef}
+        data-testid="fileTypes"
         />
         {selectedFileNames.length > 0 && (
                 <div className='SelectedFilesList'>
