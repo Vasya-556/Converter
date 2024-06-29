@@ -33,8 +33,8 @@ Follow these steps to get started
 
 ### 1. Clone the Repository
 ```bash
-    git clone https://github.com/Vasya-556/Converter.git
-    cd Converter
+git clone https://github.com/Vasya-556/Converter.git
+cd Converter
 ```
 
 ### 2. Create virtual enviroment for python
