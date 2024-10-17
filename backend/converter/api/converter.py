@@ -2,7 +2,6 @@ import os
 from docx2pdf import convert
 from spire.doc import Document, FileFormat, ToPdfParameterList
 from pdf2docx import Converter
-from win32com.client import Dispatch
 
 def convert_pdf_to_docx(pdf_files):
     for pdf_file in pdf_files:
