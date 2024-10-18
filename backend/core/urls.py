@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from converter.api.views import hello_world
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('converter.api.urls')),
+    path('', hello_world),
 ]

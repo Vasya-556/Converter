@@ -88,3 +88,6 @@ def load_files(request):
             return JsonResponse({'message': 'No files uploaded.'}, status=400)
     
     return JsonResponse({'error': 'Invalid request method. Only POST is allowed.'}, status=400)
+
+def hello_world(request):
+    return HttpResponse('<h1>Hello World</h1>')
